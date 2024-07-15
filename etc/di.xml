@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Magento\Framework\Console\CommandListInterface">
+        <arguments>
+            <argument name="commands" xsi:type="array">
+                <item name="maddlen_zermatt_install" xsi:type="object">Maddlen\Zermatt\Console\Command\Install</item>
+                <item name="maddlen_zermatt_dump_lock_file" xsi:type="object">Maddlen\Zermatt\Console\Command\DumpLockFile</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Magento\Translation\Model\Js\Config">
+        <arguments>
+            <argument name="patterns" xsi:type="array">
+                <item name="zermatt" xsi:type="string"><![CDATA[#\$t\(\s*([\'"])(?<translate>.+?)\1(?:\s*,\s*([\'"])(?<param>.+?)\3)*#]]></item>
+            </argument>
+        </arguments>
+    </type>
+</config>

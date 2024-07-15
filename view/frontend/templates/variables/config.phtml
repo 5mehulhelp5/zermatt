@@ -1,0 +1,22 @@
+<?php
+/**
+ * @author Hervé Guétin <www.linkedin.com/in/herveguetin>
+ */
+
+use Magento\Framework\View\Element\Template;
+
+?>
+<?php
+/** @var Template $block */
+?>
+<?php
+$config = $block->getData('config')->get();
+array_walk($config, function ($value, $key) {
+    /**
+     * zermatt_variable can be used anywhere in the
+     * Magento codebase to expose a backend
+     * variable to the frontend.
+     */
+    zermatt_variable($key, $value);
+});
+?>

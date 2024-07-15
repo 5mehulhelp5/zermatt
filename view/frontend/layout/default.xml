@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="before.body.end">
+            <container name="zermatt.variables">
+                <!-- Using layout for declaring variables allows much flexiblity to choose on which page(s) to add which variable(s). -->
+                <block name="zermatt.variables.config" template="Maddlen_Zermatt::variables/config.phtml">
+                    <arguments>
+                        <argument name="config" xsi:type="object">Maddlen\Zermatt\App\Config</argument>
+                    </arguments>
+                </block>
+            </container>
+            <block name="zermatt.init" template="Maddlen_Zermatt::init.phtml" after="-">
+                <arguments>
+                    <argument name="app" xsi:type="object">Maddlen\Zermatt\App\App</argument>
+                </arguments>
+            </block>
+        </referenceContainer>
+    </body>
+</page>

@@ -1,0 +1,21 @@
+{
+    "name": "maddlen/module-zermatt",
+    "version": "1.0.0",
+    "description": "AlpineJS in Magento.",
+    "type": "magento2-module",
+    "require": {
+        "magento/framework": "*",
+        "maddlen/module-zermatt-form": "1.0.0"
+    },
+    "license": [
+        "Massachusetts Institute of Technology License (MITL)"
+    ],
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "Maddlen\\Zermatt\\": ""
+        }
+    }
+}
