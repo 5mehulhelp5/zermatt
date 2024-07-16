@@ -1,7 +1,5 @@
 {
   "name": "zermatt",
-  "private": true,
-  "version": "0.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite build --watch",
@@ -18,6 +16,6 @@
     "i18next": "^23.10.1",
     "laravel-precognition-alpine": "^0.5.4",
     "prettier": "^3.2.5",
-    "zermatt-core": "github:maddlen/zermatt-core"
+    "zermatt-core": "^1.0.0"
   }
 }
