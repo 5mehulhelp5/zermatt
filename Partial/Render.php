@@ -3,7 +3,7 @@
  * @author Hervé Guétin <www.linkedin.com/in/herveguetin>
  */
 
-namespace Maddlen\Zermatt\Component;
+namespace Maddlen\Zermatt\Partial;
 
 use Magento\Framework\View\Element\Template;
 use Magento\Framework\View\Element\TemplateFactory;
@@ -20,23 +20,23 @@ class Render
 
     public function output(string $html): string
     {
-        $components = Component::all();
-        array_walk($components, function (array $component) use (&$html): void {
-            $html = str_replace($component['id'], $this->render($component), $html);
+        $partials = Partial::all();
+        array_walk($partials, function (array $partial) use (&$html): void {
+            $html = str_replace($partial['id'], $this->render($partial), $html);
         });
 
-        if (str_contains($html, Component::PLACEHOLDER)) {
+        if (str_contains($html, Partial::PLACEHOLDER)) {
             $html = $this->output($html);
         }
 
         return $html;
     }
 
-    public function render(array $component): string
+    public function render(array $partial): string
     {
         $this->templateBlock = $this->templateFactory->create();
-        $this->templateBlock->setTemplate($component['template']);
-        array_walk($component['props'], fn($value, $key) => $this->templateBlock->setData($key, $value));
+        $this->templateBlock->setTemplate($partial['template']);
+        array_walk($partial['props'], fn($value, $key) => $this->templateBlock->setData($key, $value));
         return $this->templateBlock->toHtml();
     }
 }

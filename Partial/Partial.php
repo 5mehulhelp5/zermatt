@@ -3,29 +3,29 @@
  * @author Hervé Guétin <www.linkedin.com/in/herveguetin>
  */
 
-namespace Maddlen\Zermatt\Component;
+namespace Maddlen\Zermatt\Partial;
 
-class Component
+class Partial
 {
-    final public const PLACEHOLDER = 'zermatt_component:';
+    final public const PLACEHOLDER = 'zermatt_partial:';
 
-    protected static array $components = [];
+    protected static array $partials = [];
 
     public static function add(string $template, mixed $props): string
     {
         $id = self::PLACEHOLDER . uniqid();
-        static::$components[$id] = [
+        static::$partials[$id] = [
             'id' => $id,
             'template' => $template,
             'props' => $props
         ];
 
-        echo $id; // Yes, echo the component id in the HTML
+        echo $id; // Yes, echo the partial id in the HTML
         return $id;
     }
 
     public static function all(): array
     {
-        return static::$components;
+        return static::$partials;
     }
 }
