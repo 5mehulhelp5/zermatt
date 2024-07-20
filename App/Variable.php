@@ -6,6 +6,7 @@
 namespace Maddlen\Zermatt\App;
 
 use InvalidArgumentException;
+use Magento\Framework\Api\AbstractSimpleObject;
 use Magento\Framework\Data\Collection;
 use Magento\Framework\DataObject;
 use Magento\Framework\Escaper;
@@ -16,15 +17,19 @@ class Variable
 
     public static function set(string $name, mixed $value)
     {
-        if (!(($value instanceof DataObject || $value instanceof Collection) || !is_object($value))) {
+        if (!(($value instanceof DataObject || $value instanceof Collection || $value instanceof AbstractSimpleObject) || !is_object($value))) {
             throw new InvalidArgumentException('Invalid variable value');
         }
 
         if ($value instanceof DataObject || $value instanceof Collection) {
-            $value = (new Escaper())->escapeJs(json_encode($value->toArray(), JSON_THROW_ON_ERROR));
+            $value = $value->toArray();
         }
 
-        static::$variables[$name] = $value;
+        if ($value instanceof AbstractSimpleObject) {
+            $value = $value->__toArray();
+        }
+
+            static::$variables[$name] = $value;
     }
 
     public static function all(): array
