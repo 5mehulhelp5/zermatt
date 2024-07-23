@@ -4,6 +4,7 @@
         <arguments>
             <argument name="commands" xsi:type="array">
                 <item name="maddlen_zermatt_install" xsi:type="object">Maddlen\Zermatt\Console\Command\Install</item>
+                <item name="maddlen_zermatt_build" xsi:type="object">Maddlen\Zermatt\Console\Command\Build</item>
                 <item name="maddlen_zermatt_dump_lock_file" xsi:type="object">Maddlen\Zermatt\Console\Command\DumpLockFile</item>
             </argument>
         </arguments>
@@ -14,5 +15,9 @@
                 <item name="zermatt" xsi:type="string"><![CDATA[#\$t\(\s*([\'"])(?<translate>.+?)\1(?:\s*,\s*([\'"])(?<param>.+?)\3)*#]]></item>
             </argument>
         </arguments>
+    </type>
+    <type name="Magento\Deploy\Service\DeployStaticContent">
+        <plugin name="zermatt_build_static_content_deploy"
+                type="Maddlen\Zermatt\Plugin\Deploy\Service\DeployStaticContentPlugin"/>
     </type>
 </config>

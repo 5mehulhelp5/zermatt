@@ -1,6 +1,6 @@
 {
     "name": "maddlen/module-zermatt",
-    "version": "1.0.3",
+    "version": "1.0.4",
     "description": "AlpineJS in Magento.",
     "type": "magento2-module",
     "require": {
