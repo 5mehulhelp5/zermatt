@@ -13,6 +13,7 @@ use Symfony\Component\Process\Process;
 class Build
 {
     private array $zermattThemes;
+    private ?string $themeToBuild;
 
     public function __construct(
         protected readonly ThemePackageList $themePackageList,
@@ -20,8 +21,10 @@ class Build
     {
     }
 
-    public function themes(): void
+    public function themes(?string $themeToBuild = null): void
     {
+        $this->themeToBuild = $themeToBuild;
+
         echo "\n" . 'Starting Zermatt build.' . "\n";
 
         $this->findZermattThemes();
@@ -35,7 +38,8 @@ class Build
         $themes = $this->themePackageList->getThemes();
         $this->zermattThemes = array_filter($themes, function (ThemePackage $theme) {
             $jsonFilePath = $theme->getPath() . App::JSON_FILEPATH;
-            return file_exists($jsonFilePath);
+            $themeName = sprintf('%s/%s', $theme->getVendor(), $theme->getName());
+            return file_exists($jsonFilePath) && ($themeName === $this->themeToBuild || !$this->themeToBuild);
         });
     }
 
