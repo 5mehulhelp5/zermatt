@@ -16,6 +16,6 @@ Zermatt allows step-by-step enhancement of the native Magento frontend... and he
 - **Locale and currency** utilities based on store config.
 - and more...
 
-## [📚 Documentation](http://www.zermatt.dev/docs)
+## [📚 Documentation](http://www.zermatt.dev/docs/installation)
 
 ## [🏔️ Website](http://www.zermatt.dev)
