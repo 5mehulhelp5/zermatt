@@ -33,7 +33,7 @@ class Install
         $filesystem->mirror($this->app->sourceDir(), $this->getTargetThemeDir());
 
         $this->lockFile->dump();
-        $this->build->themes();
+        $this->build->themes($targetThemeCode);
         return $this;
     }
 
