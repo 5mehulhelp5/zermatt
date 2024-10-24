@@ -32,7 +32,31 @@ $app = $block->getData('app');
  */
 ?>
 <script>
+    class ZermattVariables {
+        constructor(data) {
+            // All variables passed by backend are readonly...
+            for (const key in data) {
+                if (data.hasOwnProperty(key)) {
+                    Object.defineProperty(this, key, {
+                        value: data[key],
+                        writable: false,
+                        enumerable: true,
+                        configurable: false
+                    });
+                }
+            }
+            // ... except formKey which will be populated asynchronously
+            // by the frontend to avoid caching
+            Object.defineProperty(this, 'formKey', {
+                value: '',
+                writable: true,
+                enumerable: true,
+                configurable: true
+            });
+        }
+    }
+
     window.Zermatt = {
-        Variables: JSON.parse('<?= json_encode(Variable::all()) ?>')
+        Variables: new ZermattVariables(JSON.parse('<?= json_encode(Variable::all()) ?>'))
     }
 </script>
