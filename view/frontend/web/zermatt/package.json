@@ -16,6 +16,6 @@
     "i18next": "^23.10.1",
     "laravel-precognition-alpine": "^0.5.4",
     "prettier": "^3.2.5",
-    "zermatt-core": "^1.0.0"
+    "zermatt-core": "^1.1.0"
   }
 }
