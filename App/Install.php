@@ -20,8 +20,7 @@ class Install
         protected readonly Collection $themeList,
         protected readonly Filesystem $filesystem,
         protected readonly App        $app,
-        protected readonly LockFile   $lockFile,
-        protected Build               $build,
+        protected readonly LockFile   $lockFile
     )
     {
     }
@@ -33,7 +32,6 @@ class Install
         $filesystem->mirror($this->app->sourceDir(), $this->getTargetThemeDir());
 
         $this->lockFile->dump();
-        $this->build->themes($targetThemeCode);
         return $this;
     }
 

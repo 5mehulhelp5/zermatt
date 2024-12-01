@@ -40,8 +40,8 @@ class Install extends Command
 
         $this->messages([
             sprintf('<info>Zermatt was successfully installed in %s</info>', $this->install->getTargetThemeDir(false)),
-            "<comment>Go to this new directory and run `npm run dev` to start development.</comment>",
-            sprintf('<comment>Ex: `cd %s && npm run dev`</comment>', $this->install->getTargetThemeDir()),
+            "<comment>Go to this new directory and run `npm install && npm run dev` to start development.</comment>",
+            sprintf('<comment>cd %s && npm install && npm run dev</comment>', $this->install->getTargetThemeDir(false)),
         ]);
 
         return Command::SUCCESS;
