@@ -3,60 +3,62 @@
  * @author Hervé Guétin <www.linkedin.com/in/herveguetin>
  */
 
+use Maddlen\Zermatt\App\App;
 use Maddlen\Zermatt\App\Variable;
 use Magento\Framework\View\Element\Template;
 
 ?>
 <?php
 /** @var Template $block */
-/** @var \Maddlen\Zermatt\App\App $app */
+/** @var App $app */
 $app = $block->getData('app');
 ?>
+<?php if ($app->withZermatt($block)): ?>
+    <?php
+    /**
+     * Inject the main app JS file.
+     * This file must be created by running `npm install && npm run build`
+     * in the theme's web/zermatt directory.
+     */
+    ?>
+    <script type="module" src="<?= $block->getViewFileUrl($app->entryFilepath()) ?>"></script>
 
-<?php
-/**
- * Inject the main app JS file.
- * This file must be created by running `npm install && npm run build`
- * in the theme's web/zermatt directory.
- */
-?>
-<script type="module" src="<?= $block->getViewFileUrl($app->entryFilepath()) ?>"></script>
-
-<?php
-/**
- * Declare the main Zermatt object and populate it with the list of variables
- * that backend wants to expose to frontend.
- *
- * The JS app will enrich the Zermatt object on page load
- * with additional features, utilities, etc.
- */
-?>
-<script>
-    class ZermattVariables {
-        constructor(data) {
-            // All variables passed by backend are readonly...
-            for (const key in data) {
-                if (data.hasOwnProperty(key)) {
-                    Object.defineProperty(this, key, {
-                        value: data[key],
-                        writable: false,
-                        enumerable: true,
-                        configurable: false
-                    });
+    <?php
+    /**
+     * Declare the main Zermatt object and populate it with the list of variables
+     * that backend wants to expose to frontend.
+     *
+     * The JS app will enrich the Zermatt object on page load
+     * with additional features, utilities, etc.
+     */
+    ?>
+    <script>
+        class ZermattVariables {
+            constructor (data) {
+                // All variables passed by backend are readonly...
+                for (const key in data) {
+                    if (data.hasOwnProperty(key)) {
+                        Object.defineProperty(this, key, {
+                            value: data[key],
+                            writable: false,
+                            enumerable: true,
+                            configurable: false
+                        })
+                    }
                 }
+                // ... except formKey which will be populated asynchronously
+                // by the frontend to avoid caching
+                Object.defineProperty(this, 'formKey', {
+                    value: '',
+                    writable: true,
+                    enumerable: true,
+                    configurable: true
+                })
             }
-            // ... except formKey which will be populated asynchronously
-            // by the frontend to avoid caching
-            Object.defineProperty(this, 'formKey', {
-                value: '',
-                writable: true,
-                enumerable: true,
-                configurable: true
-            });
         }
-    }
 
-    window.Zermatt = {
-        Variables: new ZermattVariables(JSON.parse('<?= json_encode(Variable::all()) ?>'))
-    }
-</script>
+        window.Zermatt = {
+            Variables: new ZermattVariables(JSON.parse('<?= json_encode(Variable::all()) ?>'))
+        }
+    </script>
+<?php endif ?>
