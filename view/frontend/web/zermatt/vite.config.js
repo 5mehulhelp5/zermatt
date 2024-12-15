@@ -1,12 +1,24 @@
 import { defineConfig } from 'vite'
-import zermattLock from 'zermatt-core/scss.mjs'
+import zermattStyles from 'zermatt-core/server/scss.mjs'
+import zermattWatch from 'zermatt-core/server/watch.mjs'
+
+const args = process.argv.slice(2)
+const withReload = !args.includes('--noreload')
 
 export default defineConfig({
     plugins: [
         {
-            name: 'zermatt-lock',
+            name: 'zermatt-watch',
+            async configureServer (server) {
+                await zermattWatch(server, withReload)
+            }
+        },
+        {
+            name: 'zermatt-styles',
             async buildStart () {
-                await zermattLock()
+                await zermattStyles()
+                //await zermattStyles([path.join(path.dirname(fileURLToPath(import.meta.url)), '/scss/custom-entry-file.scss')]) // Custom SASS
+                //await zermattStyles([]) // Bypass all
             }
         }
     ],

@@ -13,15 +13,21 @@ use Magento\Framework\View\Element\Template;
 /** @var App $app */
 $app = $block->getData('app');
 ?>
-<?php if ($app->withZermatt($block)): ?>
+<?php if ($app->withZermatt()): ?>
     <?php
     /**
      * Inject the main app JS file.
-     * This file must be created by running `npm install && npm run build`
-     * in the theme's web/zermatt directory.
+     * When Magento is in developer mode, the vite dev server will serve the JS file.
+     * Otherwise, the JS file will be served by Magento after `npm run built` was run.
+     * @see \Maddlen\Zermatt\App\Build
      */
     ?>
-    <script type="module" src="<?= $block->getViewFileUrl($app->entryFilepath()) ?>"></script>
+    <?php if ($app->isViteDevMode()): ?>
+        <script type="module" src="http://localhost:5173/@vite/client"></script>
+        <script type="module" src="http://localhost:5173/zermatt.js"></script>
+    <?php else: ?>
+        <script type="module" src="<?= $block->getViewFileUrl($app->entryFilepath()) ?>"></script>
+    <?php endif; ?>
 
     <?php
     /**

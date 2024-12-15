@@ -2,7 +2,8 @@
   "name": "zermatt",
   "type": "module",
   "scripts": {
-    "dev": "vite build --watch",
+    "dev": "vite dev",
+    "dev:noreload": "vite dev -- --noreload",
     "build": "vite build",
     "preview": "vite preview"
   },

@@ -17,8 +17,10 @@ class App implements ArgumentInterface
     final public const THEME_DIR = '/web/zermatt';
     final public const SRC_DIR = '/view/frontend/web/zermatt';
     final public const MANIFEST_FILEPATH = '.vite/manifest.json';
+    final public const ZERMATT_WATCH_FILEPATH = '.zermatt-watch';
     final public const LOCK_FILEPATH = '/web/zermatt/zermatt-lock.json';
     final public const JSON_FILEPATH = '/web/zermatt/zermatt.json';
+    private ?bool $isViteDevMode = null;
 
     public function __construct(
         protected readonly Repository         $assetRepo,
@@ -27,14 +29,30 @@ class App implements ArgumentInterface
     {
     }
 
-    public function withZermatt(AbstractBlock $block): bool
+    public function withZermatt(): bool
     {
-        try {
-            $block->getViewFileUrl($this->entryFilepath());
-            return true;
-        } catch (Exception) {
-            return false;
+        if (!$this->isViteDevMode()) {
+            try {
+                $this->assetRepo->getUrlWithParams($this->entryFilepath(), []);
+                return true;
+            } catch (Exception) {
+                return false;
+            }
         }
+        return true;
+    }
+
+    public function isViteDevMode(): bool
+    {
+        if ($this->isViteDevMode === null) {
+            $watchFile = $this->assetRepo->createAsset(self::DIST_DIR . self::ZERMATT_WATCH_FILEPATH);
+            try {
+                $this->isViteDevMode = file_exists($watchFile->getSourceFile());
+            } catch (Exception) {
+                $this->isViteDevMode = false;
+            }
+        }
+        return $this->isViteDevMode;
     }
 
     public function entryFilepath(): string
