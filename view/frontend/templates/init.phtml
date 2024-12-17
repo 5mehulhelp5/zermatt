@@ -41,20 +41,15 @@ $app = $block->getData('app');
     <script>
         class ZermattVariables {
             constructor (data) {
-                // All variables passed by backend are readonly...
-                for (const key in data) {
-                    if (data.hasOwnProperty(key)) {
-                        Object.defineProperty(this, key, {
-                            value: data[key],
-                            writable: false,
-                            enumerable: true,
-                            configurable: false
-                        })
-                    }
-                }
-                // ... except formKey which will be populated asynchronously
-                // by the frontend to avoid caching
-                Object.defineProperty(this, 'formKey', {
+                Object.entries(data).forEach(([key, value]) => { // Immutable backend variables
+                    Object.defineProperty(this, key, {
+                        value,
+                        writable: false,
+                        enumerable: true,
+                        configurable: false
+                    })
+                })
+                Object.defineProperty(this, 'formKey', { // Mutable form key as it is provided by AJAX to bypass FPC
                     value: '',
                     writable: true,
                     enumerable: true,
