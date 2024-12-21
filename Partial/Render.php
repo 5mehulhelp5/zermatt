@@ -35,7 +35,8 @@ class Render
     public function render(array $partial): string
     {
         $this->templateBlock = $this->templateFactory->create();
-        $this->templateBlock->setTemplate($partial['template']);
+        $template = str_contains($partial['template'], '.phtml') ? $partial['template'] : $partial['template'] . '.phtml';
+        $this->templateBlock->setTemplate($template);
         array_walk($partial['props'], fn($value, $key) => $this->templateBlock->setData($key, $value));
         return $this->templateBlock->toHtml();
     }
